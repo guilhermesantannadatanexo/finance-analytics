@@ -17,9 +17,9 @@ São 600 vendas, 1.200 itens aceitos, 120 clientes, 30 produtos, três compras c
 ## Como executar pelo SSMS
 
 1. Abra o SQL Server Management Studio e conecte à sua instância. Nesta máquina foi usada `localhost`, com autenticação do Windows.
-2. Abra `sql/01_banco_completo.sql`. Em **Consulta > Modo SQLCMD**, habilite o modo SQLCMD: a diretiva `:ON ERROR EXIT` interrompe em erros, inclusive se a base já existir.
+2. Abra `sql/01_banco_completo.sql`. Use o modo normal do SSMS. O instalador executa em um único bloco e interrompe sem alterações se a base já existir.
 3. Clique em **Executar / F5**. É necessário ter permissão de criação de banco. Atualize o Explorador de Objetos para ver `DataNexoERP_Lab`.
-4. Abra `sql/03_validar.sql`, habilite o modo SQLCMD e execute. O resultado deve mostrar `PASSOU`.
+4. Abra `sql/03_validar.sql` e execute. O resultado deve mostrar `PASSOU`.
 5. Execute `sql/02_consultas_dashboard.sql` para explorar as consultas. Você pode selecionar uma consulta e executar somente o trecho.
 6. Para reaplicar o saneamento depois de estudar a fonte, use `sql/04_reprocessar.sql`, não o script de instalação. A recarga substitui somente o ERP curado deste laboratório e preserva raw e auditoria. Não apaga o banco.
 
@@ -94,3 +94,5 @@ Ticket médio = DIVIDE([Faturamento], [Vendas])
 ## Limites do modelo
 
 Laboratório de análise, não ERP de produção: sem impostos, fretes, devoluções, múltiplas parcelas, contas a pagar, orçamento ou DRE completa. Receita não é caixa; margem aqui é receita menos custo dos produtos, não lucro líquido. Compras não são pagamentos. O custo é fixo por produto; não implementa custo médio ou FIFO. Vendas e estoque assumem entrega imediata. As regras de saneamento abrangem a fonte de vendas; compras, cadastros e pagamentos são gerados já válidos. RLS, gateway e publicação no Service ainda serão exercícios posteriores.
+
+Para começar na instalação local existente, abra `sql/00_comecar_aqui.sql` e pressione F5 no SSMS normal, conectado a `NOTE-GSV` (ou `localhost`). Os arquivos atuais não usam diretivas iniciadas por dois-pontos. Se estiver com uma cópia antiga aberta, feche-a e abra novamente pelo disco.

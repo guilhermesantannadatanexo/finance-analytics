@@ -1,5 +1,4 @@
-﻿:ON ERROR EXIT
-USE DataNexoERP_Lab;
+﻿USE DataNexoERP_Lab;
 GO
 SET NOCOUNT ON;
 IF (SELECT COUNT(*) FROM raw.Vendas)<>1210 THROW 51100,'Quantidade bruta inesperada para a carga original.',1;

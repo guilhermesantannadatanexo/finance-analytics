@@ -5,7 +5,7 @@ Projeto DataNexo para estudar SQL, saneamento de dados e dashboards de ERP com f
 ## Começar
 
 1. Leia o [guia de execução e saneamento](docs/GUIA-DO-LABORATORIO.md).
-2. Execute [01_banco_completo.sql](sql/01_banco_completo.sql) pelo SSMS em **Modo SQLCMD** ou pelo sqlcmd. A instalação interrompe se o banco já existir.
+2. Execute [01_banco_completo.sql](sql/01_banco_completo.sql) pelo SSMS normal ou pelo sqlcmd. A instalação interrompe se o banco já existir.
 3. Confira [03_validar.sql](sql/03_validar.sql).
 4. Explore [02_consultas_dashboard.sql](sql/02_consultas_dashboard.sql).
 5. Para refazer a carga curada, use [04_reprocessar.sql](sql/04_reprocessar.sql).
@@ -43,3 +43,5 @@ Data | Atividade | Evidência | Próximo passo
 ---|---|---|---
 
 Status atual acima; os itens do plano original ainda não implementados permanecem como próximos passos.
+
+Para começar na instalação local existente, abra `sql/00_comecar_aqui.sql` e pressione F5 no SSMS normal, conectado a `NOTE-GSV` (ou `localhost`). Os arquivos atuais não usam diretivas iniciadas por dois-pontos. Se estiver com uma cópia antiga aberta, feche-a e abra novamente pelo disco.

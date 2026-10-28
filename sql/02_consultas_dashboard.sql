@@ -1,5 +1,4 @@
-﻿:ON ERROR EXIT
-USE DataNexoERP_Lab;
+﻿USE DataNexoERP_Lab;
 GO
 -- 1. Inspecionar bruto, interpretação e rejeições. Nenhum dado bruto é apagado.
 SELECT TOP(20) * FROM raw.Vendas ORDER BY LinhaId DESC;
