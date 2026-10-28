@@ -12,3 +12,9 @@ Ambiente: SQL Server 2025, versão 17.0.1145.4, autenticação Windows.
 - Nova tentativa de instalação bloqueada por base já existente; validador aprovado novamente após o bloqueio.
 
 Valores se referem à carga original sintética e à data de referência fixa 28/10/2026. Não constituem validação do sistema como ERP de produção nem da performance em grande volume. Não foi criado arquivo PBIX nesta etapa.
+
+## Validador após repetição da carga bruta
+
+A instalação local recebeu nova inserção da carga bruta durante tentativas de execução. O validador foi ajustado para aceitar versões adicionais na raw, mantendo a exigência de 600 vendas e 1.200 itens tratados. Confere também que a auditoria corresponde ao volume atual da fonte e que brutos = aceitos + rejeitados.
+
+Validado em 28/10/2026, sem excluir ou reprocessar dados nesta correção: **2.420 brutos = 1.200 aceitos + 1.220 rejeitados**. Faturamento, recebido, saldo e estoque continuaram conciliados.

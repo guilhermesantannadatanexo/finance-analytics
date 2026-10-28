@@ -59,7 +59,7 @@ Para uma base externa, registre URL, data de extração, licença/condições de
 
 ## Como criar mais dados fictícios
 
-O script usa sequências de números e fórmulas determinísticas para gerar códigos, datas, quantidades e preços. Altere o `TOP(600)` da CTE N **em uma cópia do laboratório** para aumentar o volume, mantendo 120 clientes e 30 produtos. Ao aumentar vendas, ajuste também o estoque inicial, as expectativas de contagem do validador e a capacidade do calendário. Para treinar saneamento, insira uma linha errada em raw, execute o reprocessamento e consulte audit.Rejeicao. O validador fornecido fixa as contagens da carga original e deve acusar alterações de volume.
+O script usa sequências de números e fórmulas determinísticas para gerar códigos, datas, quantidades e preços. Altere o `TOP(600)` da CTE N **em uma cópia do laboratório** para aumentar o volume, mantendo 120 clientes e 30 produtos. Ao aumentar vendas, ajuste também o estoque inicial, as expectativas de contagem do validador e a capacidade do calendário. Para treinar saneamento, insira uma linha errada em raw, execute o reprocessamento e consulte audit.Rejeicao. O validador permite crescimento da raw por versões duplicadas, mas continua esperando 600 vendas e 1.200 itens no ERP. Para ampliar o cenário com novas vendas, ajuste essas expectativas. Se a raw mudar depois da última carga, execute o arquivo 04 antes de validar.
 
 ## Modelo no Power BI
 

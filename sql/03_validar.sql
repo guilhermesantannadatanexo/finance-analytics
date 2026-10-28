@@ -1,7 +1,10 @@
 ﻿USE DataNexoERP_Lab;
 GO
 SET NOCOUNT ON;
-IF (SELECT COUNT(*) FROM raw.Vendas)<>1210 THROW 51100,'Quantidade bruta inesperada para a carga original.',1;
+-- O volume bruto pode crescer por novas versões ou duplicidades.
+-- O ERP esperado continua sendo o cenário de 600 vendas e 1200 itens.
+DECLARE @Brutos int=(SELECT COUNT(*) FROM raw.Vendas);
+IF @Brutos<1210 THROW 51100,'Fonte incompleta: esperadas ao menos 1210 linhas do cenário.',1;
 IF (SELECT COUNT(*) FROM erp.ItemVenda)<>1200 THROW 51101,'Esperados 1200 itens aceitos.',1;
 IF (SELECT COUNT(*) FROM erp.Venda)<>600 THROW 51102,'Esperadas 600 vendas.',1;
 IF (SELECT COUNT(*) FROM erp.Cliente)<>120 THROW 51103,'Esperados 120 clientes.',1;
@@ -9,7 +12,11 @@ IF (SELECT COUNT(*) FROM erp.Produto)<>30 THROW 51104,'Esperados 30 produtos.',1
 IF (SELECT COUNT(*) FROM erp.ItemCompra)<>90 THROW 51105,'Esperados 90 itens de compra.',1;
 IF (SELECT COUNT(*) FROM bi.Calendario)<>365 THROW 51106,'Calendário incompleto.',1;
 DECLARE @E int=(SELECT MAX(ExecucaoId) FROM audit.Execucao);
-IF (SELECT COUNT(*) FROM audit.Rejeicao WHERE ExecucaoId=@E)<>10 THROW 51107,'Esperadas 10 rejeições.',1;
+IF @E IS NULL THROW 51107,'Nenhum saneamento registrado. Execute o arquivo 04 e depois este validador.',1;
+IF (SELECT Brutos FROM audit.Execucao WHERE ExecucaoId=@E)<>@Brutos
+ THROW 51118,'A raw mudou após o saneamento. Execute 04_reprocessar.sql e depois 03_validar.sql.',1;
+IF (SELECT COUNT(*) FROM audit.Rejeicao WHERE ExecucaoId=@E)<>@Brutos-1200
+ THROW 51119,'Rejeições não conciliam com o volume bruto e os 1200 itens esperados.',1;
 IF EXISTS(SELECT 1 FROM audit.Execucao WHERE ExecucaoId=@E AND Brutos<>Aceitos+Rejeitados)
  THROW 51108,'Brutos não conciliam com aceitos + rejeitados.',1;
 IF EXISTS(SELECT 1 FROM raw.Vendas r WHERE NOT EXISTS(SELECT 1 FROM audit.Rejeicao a WHERE a.ExecucaoId=@E AND a.LinhaId=r.LinhaId)
@@ -35,4 +42,7 @@ DBCC CHECKCONSTRAINTS WITH ALL_CONSTRAINTS;
 SELECT N'PASSOU: contagens, rejeições, conciliação financeira e estoque' Resultado,
  (SELECT SUM(ReceitaLiquida) FROM bi.FatoVendas) Receita,
  (SELECT SUM(Recebido) FROM bi.ContasReceber) Recebido,
- (SELECT SUM(Saldo) FROM bi.ContasReceber) Saldo;
+ (SELECT SUM(Saldo) FROM bi.ContasReceber) Saldo,
+ @Brutos LinhasBrutas,
+ (SELECT COUNT(*) FROM erp.ItemVenda) ItensAceitos,
+ (SELECT COUNT(*) FROM audit.Rejeicao WHERE ExecucaoId=@E) LinhasRejeitadas;
