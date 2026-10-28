@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+*.pbix.autosave
+*.db
+*.log
+__pycache__/
+.venv/
